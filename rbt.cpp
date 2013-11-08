@@ -8,7 +8,7 @@ struct node
 	node* left;		// root of left subtree	
 	int key;		// data
 	node* right;	// root of right subtree
-	char color;		// R = red, B = black
+	char color;		// 'R' = red, 'B' = black
 
 }; // end node
 
@@ -18,14 +18,20 @@ struct node
 
 RBT::RBT()
 {
-	nil = Allocate(INT_MIN, 'B')
+	nil = Allocate(INT_MIN, 'B');
+	nil->parent = nil;
+	nil->left = nil;
+	nil->right = nil;
 	root = nil;
 
 } // end RBT()
 
 RBT::RBT(/*IN*/ const RBT& orig)
 {
-	nil = Allocate(INT_MIN, 'B')
+	nil = Allocate(INT_MIN, 'B');
+	nil->parent = nil;
+	nil->left = nil;
+	nil->right = nil;
 	root = nil;
 	
 	operator=(orig);
@@ -44,12 +50,14 @@ RBT::~RBT()
 
 bool RBT::Insert(/*IN*/ const int key)
 {
-	node* z = Allocate(key, 'R');
+	node* z;
 	node* y = nil;
 	node* x = root;
 	
+	// find correct location to insert new node 
 	while(x != nil)
 	{		
+		// if node whose key is 'key' already exists
 		if(key == x->key)
 			return false;
 			
@@ -62,8 +70,10 @@ bool RBT::Insert(/*IN*/ const int key)
 	
 	} // end while
 	
+	z = Allocate(key, 'R');
 	z->parent = y;
 	
+	// if tree was empty to begin with
 	if(y == nil)
 		root = z;
 	else if(key < y->key)
@@ -76,6 +86,9 @@ bool RBT::Insert(/*IN*/ const int key)
 		
 	InsertFixup(z);
 	
+	// new node was inserted
+	return true;
+	
 } // end Insert(const int)
 
 bool RBT::Delete(/*IN*/ const int key)
@@ -84,9 +97,10 @@ bool RBT::Delete(/*IN*/ const int key)
 	node* y;
 	node* x;
 	
-	// search for a node whose key is "key"
+	// find node whose key is 'key'
 	while(z != nil)
 	{
+		// if node is found
 		if(key == z->key)
 		{
 			if(z->left == nil || z->right == nil)
@@ -118,8 +132,9 @@ bool RBT::Delete(/*IN*/ const int key)
 			if(y->color == 'B')
 				DeleteFixup(x);
 				
-				
+			delete y;
 			
+			// node was removed from tree
 			return true;
 		
 		} // end if
@@ -131,6 +146,7 @@ bool RBT::Delete(/*IN*/ const int key)
 		
 	} // end while
 	
+	// node was not found
 	return false;
 	
 } // end Delete(const int)
@@ -290,9 +306,98 @@ void RBT::InsertFixup(/*IN*/ node* z)
 	
 } // end InsertFixup(node*)
 
-void RBT::DeleteFixup(/*IN*/ node* trav)
+void RBT::DeleteFixup(/*IN*/ node* x)
 {
+	node* w;
 	
+	while(x != root && x->color == 'B')
+	{
+		if(x == x->parent->left)
+		{
+			w = x->parent->right;
+			
+			if(w->color == 'R')
+			{
+				w->color = 'B';
+				x->parent->color = 'R';
+				
+				RotateLeft(x->parent);
+				
+				w = x->parent->right;
+			
+			} // end if
+			
+			if(w->left->color == 'B' && w->right->color == 'B')
+			{
+				w->color = 'R';
+				x = x->parent;
+			
+			} // end if
+			else if(w->right->color == 'B')
+			{
+				w->left->color = 'B';
+				w->color = 'R';
+				
+				RotateRight(w);
+				
+				w = x->parent->right;
+			
+			} // end else if
+			
+			w->color = x->parent->color;
+			x->parent->color = 'B';
+			w->right->color = 'B';
+			
+			RotateLeft(x->parent);
+			
+			x = root;
+					
+		} // end if
+		else
+		{
+			w = x->parent->left;
+			
+			if(w->color == 'R')
+			{
+				w->color = 'B';
+				x->parent->color = 'R';
+				
+				RotateRight(x->parent);
+				
+				w = x->parent->left;
+			
+			} // end if
+			
+			if(w->right->color == 'B' && w->left->color == 'B')
+			{
+				w->color = 'R';
+				x = x->parent;
+			
+			} // end if
+			else if(w->left->color == 'B')
+			{
+				w->right->color = 'B';
+				w->color = 'R';
+				
+				RotateLeft(w);
+				
+				w = x->parent->left;
+			
+			} // end else if
+			
+			w->color = x->parent->color;
+			x->parent->color = 'B';
+			w->left->color = 'B';
+			
+			RotateRight(x->parent);
+			
+			x = root;
+		
+		} // end else
+		
+		x->color = 'B';
+	
+	} // end while
 	
 } // end DeleteFixup(node*)
 

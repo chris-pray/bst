@@ -48,7 +48,7 @@ class RBT : public BST
 
 	protected:
 	
-		virtual node* Allocate(/*IN*/ const int key, /*IN*/ const int color) const;
+		virtual node* Allocate(/*IN*/ const int key, /*IN*/ const char color) const;
 
 		// Purpose:				The left rotation "pivots" around the link from
 		//						x to y (initially x's right child), making y the
@@ -70,9 +70,9 @@ class RBT : public BST
 		// Order of Magnitude:	O(1)
 		virtual void RotateRight(node* x);
 
-		virtual void InsertFixup(node* trav);
+		virtual void InsertFixup(node* z);
 
-		virtual void DeleteFixup(node* trav);
+		virtual void DeleteFixup(node* x);
 
 } // end rbt
 

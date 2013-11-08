@@ -84,8 +84,10 @@ bool BST::SearchIter(/*IN*/ const int key)
 {
 	node* x = root;
 	
+	// find node whose key is 'key'
 	while(x != nullptr)
 	{
+		// if node is found
 		if(key == x->key)
 			return true;
 		
@@ -96,6 +98,7 @@ bool BST::SearchIter(/*IN*/ const int key)
 		
 	} // end while
 	
+	// node was not found
 	return false;
 	
 } // end SearchIter(const int)
@@ -105,9 +108,10 @@ bool BST::Insert(/*IN*/ const int key)
 	node* y nullptr;
 	node* x = root;
 	
-	// find the correct location to insert the new node 
+	// find correct location to insert new node 
 	while(x != nullptr)
 	{
+		// if node whose key is 'key' already exists
 		if(key == x->key)
 			return false;
 			
@@ -122,7 +126,7 @@ bool BST::Insert(/*IN*/ const int key)
 	
 	x = Allocate(key);
 	
-	// if the tree was not empty to begin with
+	// if tree was not empty to begin with
 	if(y != nullptr)
 	{
 		if(key < y->key)
@@ -135,7 +139,8 @@ bool BST::Insert(/*IN*/ const int key)
 	} // end if
 	else
 		root = x;
-		
+	
+	// new node was inserted
 	return true;
 	
 } // end Insert(const int)
@@ -146,7 +151,7 @@ bool BST::Delete(/*IN*/ const int key)
 	node* y;
 	node* x;
 	
-	// search for a node whose key is "key"
+	// find node whose key is 'key'
 	while(z != nullptr)
 	{
 		// if node is found
@@ -181,6 +186,7 @@ bool BST::Delete(/*IN*/ const int key)
 			
 			delete y;
 			
+			// node was removed from tree
 			return true;
 		
 		} // end if
