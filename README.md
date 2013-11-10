@@ -1,3 +1,5 @@
+AUTHOR:	Chris Pray
+
 This repository is for my CIS 380 - Professional Practice research assignment.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -5,6 +7,7 @@ This repository is for my CIS 380 - Professional Practice research assignment.
 Compiled on:	Ubuntu 12.04
 
 Compilation Instructions:
+
 	makefile enables the user of this program to compile it from the terminal
 	by typing:
 
@@ -38,6 +41,7 @@ Compilation Instructions:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Source Code Files:
+
 	bst.h is the specification file for a standard binary search tree data
 	structure.
 
@@ -54,6 +58,7 @@ Source Code Files:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Notes:
+
 	I would like to pipe the output of main.cpp to an R program, which will
 	create a scatter plot diagram of the data and display a best-fitted curve.
 	I would then like to use these graphs on a LaTeX-beamer slideshow that I
