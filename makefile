@@ -21,6 +21,6 @@ clean:
 	\rm *.o *~ BSTvRBT
 
 tar:
-	tar cfv BSTvRBT.tar main.cpp bst.h bst.cpp rbt.h rbt.cpp exceptions.h
+	tar cfv BSTvRBT.tar main.cpp bst.h bst.cpp rbt.h rbt.cpp exceptions.h README.md
 
 all: BSTvRBT
