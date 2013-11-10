@@ -1,7 +1,17 @@
 #ifndef GUARD_bst_h
 #define GUARD_bst_h
 
-#include "exceptions.h"
+/*
+AUTHOR:			Chris Pray
+FILENAME:		bst.h
+DEPENDENCIES:	exceptions.h
+
+*/
+
+
+#include <new>			// for bad_alloc
+#include "exceptions.h"	// for custom exceptions
+using namespace std;
 
 struct node;
 
@@ -58,6 +68,6 @@ class BST
 		
 		virtual void rClear(/*IN*/ node* trav);
 
-} // end bst
+}; // end bst
 
 #endif

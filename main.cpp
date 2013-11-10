@@ -1,15 +1,18 @@
+#pragma once
+
 /*
+AUTHOR:			Chris Pray
+FILENAME:		main.cpp
+DEPENDENCIES:	bst.h, rbt.h, exceptions.h
 
 */
 
 
-#pragma once
-
-#include "bst.h"	// for BST objects
-#include "rbt.h"	// for RBT objects
-#include <iostream>	// for i/o
+#include <iostream>	// for cerr, endl
 #include <ctime>	// for clock_t, clock()
 #include <cstdlib>	// for exit(), EXIT_FAILURE
+#include "bst.h"	// for BST objects
+#include "rbt.h"	// for RBT objects
 using namespace std;
 
 bool TryInsert(BST& bst, const int key);
@@ -33,8 +36,8 @@ const int numNodes[] = {X1, X2, X3, X4, X5, X6, X7, X8, X9, X10};
 
 int main(int argc, char* argv[])
 {
-	BST bst = new BST();	// binary search tree
-	RBT rbt = new RBT();	// red-black tree
+	BST bst;				// binary search tree
+	RBT rbt;				// red-black tree
 	clock_t insertBST;		// time for BST::Insert(const int)
 	clock_t insertRBT;		// time for RBT::Insert(const int)
 	clock_t deleteBST;		// time for BST::Delete(const int)
@@ -95,7 +98,7 @@ bool TryInsert(BST& bst, const int key)
 		return bst.Insert(key);
 	
 	} // end try
-	catch(OutOfMemoryException e)
+	catch(OutOfMemoryException& e)
 	{
 		cerr << e.what() << endl;
 		exit(EXIT_FAILURE);
@@ -111,7 +114,7 @@ bool TryInsert(RBT& rbt, const int key)
 		return rbt.Insert(key);
 	
 	} // end try
-	catch(OutOfMemoryException e)
+	catch(OutOfMemoryException& e)
 	{
 		cerr << e.what() << endl;
 		exit(EXIT_FAILURE);

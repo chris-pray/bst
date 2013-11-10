@@ -1,6 +1,15 @@
-#ifndef GUARD_rbt_h
-#define GUARD_rbt_h
+#ifndef GUARD_rbt_cpp
+#define GUARD_rbt_cpp
 
+/*
+AUTHOR:			Chris Pray
+FILENAME:		rbt.cpp
+DEPENDENCIES:	rbt.h, bst.h, exceptions.h
+
+*/
+
+
+#include "rbt.h"
 
 struct node
 {
@@ -124,7 +133,7 @@ bool RBT::Delete(/*IN*/ const int key)
 				
 			if(y != z)
 			{
-				z->key = y->key
+				z->key = y->key;
 				// copy y's satellite data into z
 			
 			} // end if
@@ -162,7 +171,7 @@ void RBT::operator=(/*IN*/ const RBT& rbt)
 //		Protected Methods
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-node* RBT::Allocate(/*IN*/ const int key, /*IN*/ const char color)
+node* RBT::Allocate(/*IN*/ const int key, /*IN*/ const char color) const
 {
 	try
 	{
@@ -179,7 +188,7 @@ node* RBT::Allocate(/*IN*/ const int key, /*IN*/ const char color)
 	} // end try
 	catch(bad_alloc e)
 	{
-		throw OutOfMemoryException("OutOfMemoryException: Cannot allocate node");
+		throw OutOfMemoryException();
 
 	} // end catch
 	
@@ -247,6 +256,8 @@ void RBT::RotateRight(node* x)
 
 void RBT::InsertFixup(/*IN*/ node* z)
 {
+	node* y;
+
 	while(z->parent->color == 'R')
 	{
 		if(z->parent == z->parent->parent->left)
@@ -272,7 +283,7 @@ void RBT::InsertFixup(/*IN*/ node* z)
 			z->parent->color = 'B';
 			z->parent->parent->color = 'R';
 			
-			RotateRight(z->parent->parent)
+			RotateRight(z->parent->parent);
 		
 		} // end if
 		else
@@ -298,7 +309,7 @@ void RBT::InsertFixup(/*IN*/ node* z)
 			z->parent->color = 'B';
 			z->parent->parent->color = 'R';
 			
-			RotateRight(z->parent->parent)
+			RotateRight(z->parent->parent);
 		
 		} // end else
 	

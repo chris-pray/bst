@@ -1,5 +1,13 @@
-#ifndef GUARD_bst_h
-#define GUARD_bst_h
+#ifndef GUARD_bst_cpp
+#define GUARD_bst_cpp
+
+/*
+AUTHOR:			Chris Pray
+FILENAME:		bst.cpp
+DEPENDENCIES:	bst.h, exceptions.h
+
+*/
+
 
 #include "bst.h"
 
@@ -40,13 +48,13 @@ BST::~BST()
 //		Public Methods
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-void BST::InOrdWalk()
+void BST::InOrdWalk() const
 {
 	rInOrderWalk(root);
 
 } // end InOrdWalk()
 
-int BST::Min()
+int BST::Min() const
 {
 	node* temp = root;
 	
@@ -60,7 +68,7 @@ int BST::Min()
 	
 } // end Min()
 
-int BST::Max()
+int BST::Max() const
 {
 	node* temp = root;
 	
@@ -74,13 +82,13 @@ int BST::Max()
 	
 } // end Max()
 
-bool BST::SearchRec(/*IN*/ const int key)
+bool BST::SearchRec(/*IN*/ const int key) const
 {
-	return rSearch(root);
+	return rSearch(root, key);
 	
 } // end SearchRec(const int)
 
-bool BST::SearchIter(/*IN*/ const int key)
+bool BST::SearchIter(/*IN*/ const int key) const
 {
 	node* x = root;
 	
@@ -105,7 +113,7 @@ bool BST::SearchIter(/*IN*/ const int key)
 
 bool BST::Insert(/*IN*/ const int key)
 {
-	node* y nullptr;
+	node* y = nullptr;
 	node* x = root;
 	
 	// find correct location to insert new node 
@@ -172,7 +180,7 @@ bool BST::Delete(/*IN*/ const int key)
 				
 			if(y->parent == nullptr)
 				root = x;
-			else if(y = y->parent->left)
+			else if(y == y->parent->left)
 				y->parent->left = x;
 			else
 				y->parent->right = x;
@@ -211,7 +219,7 @@ void BST::Clear()
 	
 } // end Clear()
 
-bool BST::Empty()
+bool BST::Empty() const
 {
 	return root == nullptr;
 	
@@ -228,7 +236,7 @@ void BST::operator=(/*IN*/ const BST& bst)
 //		Protected Methods
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-node* BST::Allocate(/*IN*/ const int key)
+node* BST::Allocate(/*IN*/ const int key) const
 {
 	try
 	{
@@ -242,7 +250,7 @@ node* BST::Allocate(/*IN*/ const int key)
 		return newNode;
 
 	} // end try
-	catch(bad_alloc e)
+	catch(bad_alloc& e)
 	{
 		throw OutOfMemoryException();
 
@@ -264,7 +272,7 @@ void BST::rAssign(/*IN/OUT*/ node*& newTrav, /*IN*/ node* origTrav)
 
 } // end rAssign(node*&, node*)
 
-void BST::rInOrderWalk(/*IN*/ node* trav)
+void BST::rInOrderWalk(/*IN*/ node* trav) const
 {
 	if(trav != nullptr)
 	{
@@ -276,7 +284,7 @@ void BST::rInOrderWalk(/*IN*/ node* trav)
 	
 } // end rInOrderWalk(node*)
 
-bool BST::rSearch(/*IN*/ node* trav, /*IN*/ const int key)
+bool BST::rSearch(/*IN*/ node* trav, /*IN*/ const int key) const
 {
 	if(trav != nullptr)
 	{
@@ -284,7 +292,7 @@ bool BST::rSearch(/*IN*/ node* trav, /*IN*/ const int key)
 			return rSearch(trav->right, key);
 			
 		if(key > trav->key)
-			return rSearch(trav->left);
+			return rSearch(trav->left, key);
 			
 		return true;
 		
@@ -294,7 +302,7 @@ bool BST::rSearch(/*IN*/ node* trav, /*IN*/ const int key)
 	
 } // end rSearch(node*, const int)
 
-node* BST::Min(/*IN*/ node* trav)
+node* BST::Min(/*IN*/ node* trav) const
 {
 	node* temp = nullptr;
 	
@@ -309,7 +317,7 @@ node* BST::Min(/*IN*/ node* trav)
 	
 } // end Min(node*)
 
-node* BST::Max(/*IN*/ node* trav)
+node* BST::Max(/*IN*/ node* trav) const
 {
 	node* temp = nullptr;
 	
@@ -324,7 +332,7 @@ node* BST::Max(/*IN*/ node* trav)
 	
 } // end Max(node*)
 
-node* BST::Successor(/*IN*/ node* x)
+node* BST::Successor(/*IN*/ node* x) const
 {
 	if(x == nullptr)
 		return x;

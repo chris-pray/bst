@@ -3,24 +3,30 @@
 
 /*
 
-AUTHOR:	Chris Pray
+AUTHOR:			Chris Pray
+FILENAME:		rbt.h
+DEPENDENCIES:	bst.h, exceptions.h
 
-This is the specification file for a red-black tree abstract data type.
+PURPOSE:
+	This is the specification file for a red-black tree abstract data type.
 
-A red-black tree is an augmented binary search tree which has the following
-properties:
-1. Every node is either red or black.
-2. The root is black.
-3. Every leaf is black.
-4. If a node is red, then both its children are black.
-5. For each node, all paths from the node to descendant leaves contain the same
-	number of black nodes.
+	A red-black tree is an augmented binary search tree which has the following
+	properties:
+	1. Every node is either red or black.
+	2. The root is black.
+	3. Every leaf is black.
+	4. If a node is red, then both its children are black.
+	5. For each node, all paths from the node to descendant leaves contain the
+		same number of black nodes.
 	
 */
 
-#include <climits>
-#include "bst.h"
-#include "exceptions.h"
+
+#include <climits>		// for INT_MIN
+#include <new>			// for bad_aloc
+#include "bst.h"		// for ancestor class, BST
+#include "exceptions.h"	// for custom exceptions
+using namespace std;
 
 struct node;
 
@@ -74,6 +80,6 @@ class RBT : public BST
 
 		virtual void DeleteFixup(node* x);
 
-} // end rbt
+}; // end rbt
 
 #endif

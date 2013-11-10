@@ -1,36 +1,52 @@
 #ifndef GUARD_exceptions_h
 #define GUARD_exceptions_h
 
+/*
+AUTHOR:			Chris Pray
+FILENAME:		exceptions.h
+DEPENDENCIES:	none
+
+*/
+
+
 #include <exception>
+using namespace std;
 
-class OutOfMemoryException : public std::exception
+class OutOfMemoryException : public exception
 {
-	virtual const char* what() const throw()
-	{
-		return "Error - Out of memory.";
-		
-	} // end what()
+
+	public:
+
+		virtual const char* what() const throw()
+		{
+			return "Error - Out of memory.";
+			
+		} // end what()
 	
-} // end OutOfMemoryException
+}; // end OutOfMemoryException
 
-class EmptyListException : public std::exception
+class EmptyListException : public exception
 {
-	virtual const char* what() const throw()
-	{
-		return "Error - Empty list.";
-		
-	} // end what()
+	public:
 
-} // end EmptyListException
+		virtual const char* what() const throw()
+		{
+			return "Error - Empty list.";
+			
+		} // end what()
 
-class NullChildException : public std:: exception
+}; // end EmptyListException
+
+class NullChildException : public exception
 {
-	virtual const char* what() const throw()
-	{
-		return "Error - Null child.";
+	public:
 		
-	} // end what()
+		virtual const char* what() const throw()
+		{
+			return "Error - Null child.";
+			
+		} // end what()
 
-} // end NullChildException
+}; // end NullChildException
 
 #endif
