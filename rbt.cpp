@@ -50,12 +50,65 @@ RBT::RBT(/*IN*/ const RBT& orig)
 RBT::~RBT()
 {
 	Clear();
+
+	delete nil;
 	
 } // end ~RBT()
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //		Public Methods
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+int RBT::Min() const
+{
+	node* temp = root;
+	
+	if(temp == nil)
+		throw EmptyListException();
+	
+	while(temp->left != nil)
+		temp = temp->left;
+		
+	return temp->key;	
+	
+} // end Min()
+
+int RBT::Max() const
+{
+	node* temp = root;
+	
+	if(temp == nil)
+		throw EmptyListException();
+	
+	while(temp->right != nil)
+		temp = temp->right;
+		
+	return temp->key;
+
+} // end Max()
+
+bool RBT::SearchIter(/*IN*/ const int key) const
+{
+	node* x = root;
+	
+	// find node whose key is 'key'
+	while(x != nil)
+	{
+		// if node is found
+		if(key == x->key)
+			return true;
+		
+		if(key < x->key)
+			x = x->left;
+		else
+			x = x->right;
+		
+	} // end while
+	
+	// node was not found
+	return false;
+	
+} // end SearchIter(const int)
 
 bool RBT::Insert(/*IN*/ const int key)
 {
@@ -160,10 +213,25 @@ bool RBT::Delete(/*IN*/ const int key)
 	
 } // end Delete(const int)
 
+void RBT::Clear()
+{
+	rClear(root);
+	
+	root = nil;
+	
+} // end Clear()
+
+bool RBT::Empty() const
+{
+	return root == nil;
+	
+} // end Empty()
+
 void RBT::operator=(/*IN*/ const RBT& rbt)
 {
 	Clear();
 	rAssign(root, rbt.root);
+	root->parent = nil;
 	
 } // end operator=(const RBT&)
 
@@ -193,6 +261,119 @@ node* RBT::Allocate(/*IN*/ const int key, /*IN*/ const char color) const
 	} // end catch
 	
 } // end Allocate(const int)
+
+void RBT::rAssign(/*IN/OUT*/ node*& newTrav, /*IN*/ node* origTrav)
+{
+	if(origTrav != nil)
+	{
+		newTrav = Allocate(origTrav->key, origTrav->color);
+		rAssign(newTrav->left, origTrav->left);
+		rAssign(newTrav->right, origTrav->right);
+
+	} // end if
+	else
+		newTrav = nil;
+
+} // end rAssign(node*&, node*)
+
+void RBT::rInOrderWalk(/*IN*/ node* trav) const
+{
+	if(trav != nil)
+	{
+		rInOrderWalk(trav->left);
+		// define visit
+		rInOrderWalk(trav->right);
+		
+	} // end if
+	
+} // end rInOrderWalk(node*)
+
+bool RBT::rSearch(/*IN*/ node* trav, /*IN*/ const int key) const
+{
+	if(trav != nil)
+	{
+		if(key < trav->key)
+			return rSearch(trav->right, key);
+			
+		if(key > trav->key)
+			return rSearch(trav->left, key);
+			
+		return true;
+		
+	} // end if
+	
+	return false;
+	
+} // end rSearch(node*, const int)
+
+node* RBT::Min(/*IN*/ node* trav) const
+{
+	node* temp = nil;
+	
+	while(trav != nil)
+	{
+		temp = trav;
+		trav = trav->left;
+		
+	} // end while
+		
+	return temp;	
+	
+} // end Min(node*)
+
+node* RBT::Max(/*IN*/ node* trav) const
+{
+	node* temp = nil;
+	
+	while(trav != nil)
+	{
+		temp = trav;
+		trav = trav->right;
+		
+	} // end while
+		
+	return temp;
+	
+} // end Max(node*)
+
+node* RBT::Successor(/*IN*/ node* x) const
+{
+	if(x == nil)
+		return x;
+		
+	if(x->right != nil)
+		return Min(x->right);
+		
+	node* y = x->parent;
+	
+	while(y != nil && x == y->right)
+	{
+		x = y;
+		y = y->parent;
+		
+	} // end while
+
+	return y;
+	
+} // end Successor(node*)
+
+void RBT::rClear(/*IN*/ node* trav)
+{
+	if(trav != nil)
+	{
+		rClear(trav->left);
+		rClear(trav->right);
+		
+		if(trav->key < trav->parent->key)
+			trav->parent->left = nil;
+		else
+			trav->parent->right = nil;
+			
+		delete trav;
+		
+	} // end if
+	
+} // end rClear(node*)
 		
 void RBT::RotateLeft(node* x)
 {
@@ -272,18 +453,22 @@ void RBT::InsertFixup(/*IN*/ node* z)
 				z = z->parent->parent;
 			
 			} // end if
-			else if(z == z->parent->right)
+			else
 			{
-				z = z->parent;
-				
-				RotateLeft(z);
+				if(z == z->parent->right)
+				{
+					z = z->parent;
+					
+					RotateLeft(z);
+
+				} // end if
+
+				z->parent->color = 'B';
+				z->parent->parent->color = 'R';
 			
-			} // end else if
+				RotateRight(z->parent->parent);
 			
-			z->parent->color = 'B';
-			z->parent->parent->color = 'R';
-			
-			RotateRight(z->parent->parent);
+			} // end else
 		
 		} // end if
 		else
@@ -298,22 +483,28 @@ void RBT::InsertFixup(/*IN*/ node* z)
 				z = z->parent->parent;
 			
 			} // end if
-			else if(z == z->parent->left)
+			else
 			{
-				z = z->parent;
+				if(z == z->parent->left)
+				{
+					z = z->parent;
+					
+					RotateRight(z);
+
+				} // end if
+
+				z->parent->color = 'B';
+				z->parent->parent->color = 'R';
 				
-				RotateLeft(z);
+				RotateLeft(z->parent->parent);
 			
-			} // end else if
-			
-			z->parent->color = 'B';
-			z->parent->parent->color = 'R';
-			
-			RotateRight(z->parent->parent);
+			} // end else
 		
 		} // end else
 	
 	} // end while
+
+	root->color = 'B';
 	
 } // end InsertFixup(node*)
 
@@ -344,24 +535,28 @@ void RBT::DeleteFixup(/*IN*/ node* x)
 				x = x->parent;
 			
 			} // end if
-			else if(w->right->color == 'B')
+			else
 			{
-				w->left->color = 'B';
-				w->color = 'R';
+				if(w->right->color == 'B')
+				{
+					w->left->color = 'B';
+					w->color = 'R';
+					
+					RotateRight(w);
+					
+					w = x->parent->right;
+
+				} // end if
+
+				w->color = x->parent->color;
+				x->parent->color = 'B';
+				w->right->color = 'B';
 				
-				RotateRight(w);
+				RotateLeft(x->parent);
 				
-				w = x->parent->right;
+				x = root;
 			
-			} // end else if
-			
-			w->color = x->parent->color;
-			x->parent->color = 'B';
-			w->right->color = 'B';
-			
-			RotateLeft(x->parent);
-			
-			x = root;
+			} // end else
 					
 		} // end if
 		else
@@ -385,24 +580,28 @@ void RBT::DeleteFixup(/*IN*/ node* x)
 				x = x->parent;
 			
 			} // end if
-			else if(w->left->color == 'B')
+			else
 			{
-				w->right->color = 'B';
-				w->color = 'R';
+				if(w->left->color == 'B')
+				{
+					w->right->color = 'B';
+					w->color = 'R';
+					
+					RotateLeft(w);
+					
+					w = x->parent->left;
+
+				} // end if
+
+				w->color = x->parent->color;
+				x->parent->color = 'B';
+				w->left->color = 'B';
 				
-				RotateLeft(w);
+				RotateRight(x->parent);
 				
-				w = x->parent->left;
+				x = root;
 			
-			} // end else if
-			
-			w->color = x->parent->color;
-			x->parent->color = 'B';
-			w->left->color = 'B';
-			
-			RotateRight(x->parent);
-			
-			x = root;
+			} // end else
 		
 		} // end else
 		

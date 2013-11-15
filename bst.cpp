@@ -260,7 +260,7 @@ node* BST::Allocate(/*IN*/ const int key) const
 		
 void BST::rAssign(/*IN/OUT*/ node*& newTrav, /*IN*/ node* origTrav)
 {
-	if( origTrav != nullptr )
+	if(origTrav != nullptr)
 	{
 		newTrav = Allocate(origTrav->key);
 		rAssign(newTrav->left, origTrav->left);
@@ -338,7 +338,7 @@ node* BST::Successor(/*IN*/ node* x) const
 		return x;
 		
 	if(x->right != nullptr)
-		return Min(x);
+		return Min(x->right);
 		
 	node* y = x->parent;
 	

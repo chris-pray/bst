@@ -41,9 +41,19 @@ class RBT : public BST
 		~RBT();
 
 
+		virtual int Min() const;
+
+		virtual int Max() const;
+
+		virtual bool SearchIter(/*IN*/ const int key) const;
+
 		virtual bool Insert(/*IN*/ const int key);
 
 		virtual bool Delete(/*IN*/ const int key);
+
+		virtual void Clear();
+
+		virtual bool Empty() const;
 
 		virtual void operator=(/*IN*/ const RBT& bst);
 
@@ -55,6 +65,20 @@ class RBT : public BST
 	protected:
 	
 		virtual node* Allocate(/*IN*/ const int key, /*IN*/ const char color) const;
+
+		virtual void rAssign(/*IN/OUT*/ node*& newTrav, /*IN*/ node* origTrav);
+
+		virtual void rInOrderWalk(/*IN*/ node* trav) const;
+
+		virtual bool rSearch(/*IN*/ node* trav, /*IN*/ const int key) const;
+
+		virtual node* Min(/*IN*/ node* trav) const;
+
+		virtual node* Max(/*IN*/ node* trav) const;
+
+		virtual node* Successor(/*IN*/ node* x) const;
+
+		virtual void rClear(/*IN*/ node* trav);
 
 		// Purpose:				The left rotation "pivots" around the link from
 		//						x to y (initially x's right child), making y the
