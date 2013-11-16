@@ -61,7 +61,7 @@ int main()
 		cout << "BST::Empty() works" << endl;
 	else
 		cout << "BST::Empty() doesn't work" << endl;
-
+		
 	return 0;
 
 } // end main()

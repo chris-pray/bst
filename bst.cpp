@@ -213,6 +213,7 @@ bool BST::Delete(/*IN*/ const int key)
 
 void BST::Clear()
 {
+
 	rClear(root);
 	
 	root = nullptr;
@@ -360,11 +361,12 @@ void BST::rClear(/*IN*/ node* trav)
 		rClear(trav->left);
 		rClear(trav->right);
 		
-		if(trav->key < trav->parent->key)
+		if(trav->parent == nullptr);
+		else if(trav->key < trav->parent->key)
 			trav->parent->left = nullptr;
 		else
 			trav->parent->right = nullptr;
-			
+		
 		delete trav;
 		
 	} // end if
