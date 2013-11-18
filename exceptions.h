@@ -6,6 +6,12 @@ AUTHOR:			Chris Pray
 FILENAME:		exceptions.h
 DEPENDENCIES:	none
 
+PURPOSE:
+	This file defines exception classes, inherited from std::exception, that are
+	thrown from a BST object or an RBT object.  When a user catches these
+	exceptions, a more precise definition of the error that occured is
+	available to them in the what() method.
+
 */
 
 

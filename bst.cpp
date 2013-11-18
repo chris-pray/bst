@@ -6,6 +6,10 @@ AUTHOR:			Chris Pray
 FILENAME:		bst.cpp
 DEPENDENCIES:	bst.h, exceptions.h
 
+PURPOSE:
+	This file implements the methods of the BST class and defines the nodes
+	which it will contain.
+
 */
 
 
@@ -290,10 +294,10 @@ bool BST::rSearch(/*IN*/ node* trav, /*IN*/ const int key) const
 	if(trav != nullptr)
 	{
 		if(key < trav->key)
-			return rSearch(trav->right, key);
+			return rSearch(trav->left, key);
 			
 		if(key > trav->key)
-			return rSearch(trav->left, key);
+			return rSearch(trav->right, key);
 			
 		return true;
 		

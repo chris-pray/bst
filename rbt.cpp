@@ -6,6 +6,10 @@ AUTHOR:			Chris Pray
 FILENAME:		rbt.cpp
 DEPENDENCIES:	rbt.h, bst.h, exceptions.h
 
+PURPOSE:
+	This file implements the methods of the RBT class and defines the nodes
+	which it will contain.
+
 */
 
 
@@ -86,6 +90,12 @@ int RBT::Max() const
 	return temp->key;
 
 } // end Max()
+
+bool RBT::SearchRec(/*IN*/ const int key) const
+{
+	return rSearch(root, key);
+	
+} // end SearchRec(const int)
 
 bool RBT::SearchIter(/*IN*/ const int key) const
 {
@@ -293,10 +303,10 @@ bool RBT::rSearch(/*IN*/ node* trav, /*IN*/ const int key) const
 	if(trav != nil)
 	{
 		if(key < trav->key)
-			return rSearch(trav->right, key);
+			return rSearch(trav->left, key);
 			
 		if(key > trav->key)
-			return rSearch(trav->left, key);
+			return rSearch(trav->right, key);
 			
 		return true;
 		

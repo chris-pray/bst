@@ -8,13 +8,13 @@ LFLAGS = -Wall $(DEBUG)
 
 
 BSTvRBT: $(OBJS)
-	$(CC) $(LFLAGS) $(OBJS) -o BSTvRBT
+	$(CC) $(LFLAGS) $(OBJS) -lrt -o BSTvRBT
 	
 BST_TEST: $(OBJS_BST_TEST)
 	$(CC) $(LFLAGS) $(OBJS_BST_TEST) -o BST_TEST
 	
-RBT_TEST: $(OBJS_BST_TEST)
-	$(CC) $(LFLAGS) $(OBJS_BST_TEST) -o RBT_TEST
+RBT_TEST: $(OBJS_RBT_TEST)
+	$(CC) $(LFLAGS) $(OBJS_RBT_TEST) -o RBT_TEST
 	
 bst_test.o: bst.h
 	$(CC) $(CFLAGS) bst_test.cpp
@@ -23,7 +23,7 @@ rbt_test.o: bst.h rbt.h
 	$(CC) $(CFLAGS) rbt_test.cpp
 
 main.o: bst.h rbt.h
-	$(CC) $(CFLAGS) main.cpp
+	$(CC) $(CFLAGS) main.cpp -lrt
 
 bst.o: bst.h bst.cpp exceptions.h
 	$(CC) $(CFLAGS) bst.cpp

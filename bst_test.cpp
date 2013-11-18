@@ -5,6 +5,11 @@ AUTHOR:			Chris Pray
 FILENAME:		bst_test.cpp
 DEPENDENCIES:	bst.h, exceptions.h
 
+PURPOSE:
+	This file tests the interface to a BST object.  It does so by instantiating
+	the BST class and calling each public method of the class at least once.  
+	The user is notified whether the methods worked or not.
+
 */
 
 
@@ -12,6 +17,10 @@ DEPENDENCIES:	bst.h, exceptions.h
 #include <cstdlib>	// for exit(), EXIT_FAILURE
 #include "bst.h"	// for BST objects
 using namespace std;
+
+const int MINUMUM = 0;			// The minimum key value to be inserted into the binary search tree
+const int MAXIMUM = 5;			// The maximum key value + 1 to be inserted into the binary search tree
+const int OUT_OF_RANGE = -1;	// A key value not in the range of numbers in the binary search tree
 
 int main()
 {
@@ -22,35 +31,42 @@ int main()
 	else
 		cout << "BST::Empty() doesn't work" << endl;
 		
-	bst.Insert(0);
+	bst.Insert(MINUMUM);
 	
 	if(!bst.Empty())
 		cout << "BST::Empty() works" << endl;
 	else
 		cout << "BST::Empty() doesn't work" << endl;
 		
-	if(bst.Delete(0))
+	if(bst.Delete(MINUMUM))
 		cout << "BST::Delete(const int) works" << endl;
 	else
 		cout << "BST::Delete(const int) doesn't work" << endl;
 		
-	if(!bst.Delete(-1))
+	if(!bst.Delete(OUT_OF_RANGE))
 		cout << "BST::Delete(const int) works" << endl;
 	else
 		cout << "BST::Delete(const int) doesn't work" << endl;
 	
-	for(int i = 0; i < 10; i++)
+	for(int i = MINUMUM; i < MAXIMUM; i++)
 		bst.Insert(i);
 		
-	cout << bst.Min() << endl;
-	cout << bst.Max() << endl;
+	if(bst.Min() == MINUMUM)
+		cout << "BST::Min() works" << endl;
+	else
+		cout << "BST::Min() doesn't work" << endl;
+		
+	if(bst.Max() == MAXIMUM - 1)
+		cout << "BST::Max() works" << endl;
+	else
+		cout << "BST::Max() doesn't work" << endl;
 	
-	if(bst.SearchIter(0) && !bst.SearchIter(10))
+	if(bst.SearchIter(MINUMUM) && !bst.SearchIter(MAXIMUM))
 		cout << "BST::SearchIter(const int) works" << endl;
 	else
 		cout << "BST::SearchIter(const int) doesn't work" << endl;
 		
-	if(bst.SearchRec(0) && !bst.SearchRec(10))
+	if(bst.SearchRec(MINUMUM) && !bst.SearchRec(MAXIMUM))
 		cout << "BST::SearchRec(const int) works" << endl;
 	else
 		cout << "BST::SearchRec(const int) doesn't work" << endl;

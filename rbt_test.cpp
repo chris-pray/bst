@@ -5,6 +5,11 @@ AUTHOR:			Chris Pray
 FILENAME:		rbt_test.cpp
 DEPENDENCIES:	bst.h, rbt.h, exceptions.h
 
+PURPOSE:
+	This file tests the interface to a RBT object.  It does so by instantiating
+	the RBT class and calling each public method of the class at least once.  
+	The user is notified whether the methods worked or not.
+
 */
 
 
@@ -13,6 +18,10 @@ DEPENDENCIES:	bst.h, rbt.h, exceptions.h
 #include "bst.h"	// for BST objects
 #include "rbt.h"	// for RBT objects
 using namespace std;
+
+const int MINUMUM = 0;			// The minimum key value to be inserted into the red-black tree
+const int MAXIMUM = 5;			// The maximum key value + 1 to be inserted into the red-black tree
+const int OUT_OF_RANGE = -1;	// A key value not in the range of numbers in the red-black tree
 
 int main()
 {
@@ -23,42 +32,42 @@ int main()
 	else
 		cout << "RBT::Empty() doesn't work" << endl;
 		
-	rbt.Insert(0);
+	rbt.Insert(MINUMUM);
 	
 	if(!rbt.Empty())
 		cout << "RBT::Empty() works" << endl;
 	else
 		cout << "RBT::Empty() doesn't work" << endl;
 		
-	if(rbt.Delete(0))
+	if(rbt.Delete(MINUMUM))
 		cout << "RBT::Delete(const int) works" << endl;
 	else
 		cout << "RBT::Delete(const int) doesn't work" << endl;
 		
-	if(!rbt.Delete(-1))
+	if(!rbt.Delete(OUT_OF_RANGE))
 		cout << "RBT::Delete(const int) works" << endl;
 	else
 		cout << "RBT::Delete(const int) doesn't work" << endl;
 	
-	for(int i = 0; i < 5; i++)
-		bst.Insert(i);
+	for(int i = MINUMUM; i < MAXIMUM; i++)
+		rbt.Insert(i);
 		
-	if(rbt.Min() == 0)
+	if(rbt.Min() == MINUMUM)
 		cout << "RBT::Min() works" << endl;
 	else
 		cout << "RBT::Min() doesn't work" << endl;
 		
-	if(rbt.Max() == 4)
+	if(rbt.Max() == MAXIMUM - 1)
 		cout << "RBT::Max() works" << endl;
 	else
-		cout << "RBT::Miax() doesn't work" << endl;
+		cout << "RBT::Max() doesn't work" << endl;
 	
-	if(rbt.SearchIter(0) && !rbt.SearchIter(5))
+	if(rbt.SearchIter(MINUMUM) && !rbt.SearchIter(MAXIMUM))
 		cout << "RBT::SearchIter(const int) works" << endl;
 	else
 		cout << "RBT::SearchIter(const int) doesn't work" << endl;
 		
-	if(rbt.SearchRec(0) && !rbt.SearchRec(5))
+	if(rbt.SearchRec(MINUMUM) && !rbt.SearchRec(MAXIMUM))
 		cout << "RBT::SearchRec(const int) works" << endl;
 	else
 		cout << "RBT::SearchRec(const int) doesn't work" << endl;
