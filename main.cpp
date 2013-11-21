@@ -81,11 +81,17 @@ void GetClockT(const BST& bst, const RBT& rbt, long bstMaxTs[], long rbtMaxTs[],
 
 int main(int argc, char* argv[])
 {
-	int x;	// The bst and rbt will each contain 10^(x - 1) nodes
+	BST bst;				// binary search tree
+	RBT rbt;				// red-black tree
+	long bstInsertT = 0;	// time for BST::Insert(const int)
+	long rbtInsertT = 0;	// time for RBT::Insert(const int)
+	long bstMaxTs[10];		// times for BST::Max() for list size of Xn
+	long rbtMaxTs[10];		// times for RBT::Max() for list size of Xn
+	int x;					// The bst and rbt will each contain 10^(x - 1) nodes
 	
 	if(argc == 1)
 	{
-		cout << "Please enter a non-negative integer: ";
+		cout << "Please enter a the number of nodes you wish for each tree to have: ";
 		cin >> x;
 		
 		while(x < 0)
@@ -106,31 +112,18 @@ int main(int argc, char* argv[])
 	
 	} // end else
 	
-	if(x > 5)
-		cout << "This may take a while." << endl;
-	
-	BST bst;						// binary search tree
-	RBT rbt;						// red-black tree
-	long bstInsertT = 0;			// time for BST::Insert(const int)
-	long rbtInsertT = 0;			// time for RBT::Insert(const int)
-	long* bstMaxTs = new long[x];	// times for BST::Max() for list size of Xn
-	long* rbtMaxTs = new long[x];	// times for RBT::Max() for list size of Xn
-	
 	// for each exponent in the range [0, x)
-	for(int i = 0; i < x; i++)
+	for(int i = 0; i < 10; i++)
 	{
 		try
 		{
 			// fill the bst and rbt with key values up to 10^i that are not
 			//  already in them
-			if(i == 0)
-				Fill(bst, rbt, 0, (int)pow(10.0f, (float)i), bstInsertT, rbtInsertT);
-			else
-				Fill(bst, rbt, (int)pow(10.0f, (float)(i - 1)), (int)pow(10.0f, (float)i), bstInsertT, rbtInsertT);
+			Fill(bst, rbt, i * (x / 10), (i + 1) * (x / 10), bstInsertT, rbtInsertT);
 
 			GetClockT(bst, rbt, bstMaxTs, rbtMaxTs, i);
 
-			cout << "Number of nodes: " << (int)pow(10.0f, (float)i) << endl
+			cout << "Number of nodes: " << (i + 1) * (x / 10) << endl
 				 << "BST::Max() time: " << bstMaxTs[i] << " nanoseconds" << endl
 				 << "RBT::Max() time: " << rbtMaxTs[i] << " nanoseconds" << endl << endl;
 			 
