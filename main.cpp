@@ -7,15 +7,16 @@ DEPENDENCIES:	bst.h, rbt.h, exceptions.h
 
 PURPOSE:
 	This program inserts a binary search tree and a red-black tree with nodes
-	whose key values are in the range [0, 10^(x - 1)) in sequential order.  The
-	binary search tree will essentially become a linked list, while the
-	red-black tree will maintain its balance.  The maximum execution time (in
-	nanoseconds) of each objects 'Insert()' call is recorded, to be printed to
-	standard output before this program terminates successfully, and at each
-	interval where the number of nodes is 10^n, where n is between 0-x, the
-	execution time (in nanoseconds) of each object's call to 'Max()' is recorded
-	and printed to standard output.  These times can be used to determine
-	efficiency differences between binary search trees and red-black trees.
+	whose key values are in the range [0, 10*(x/10)), where x is a number
+	entered by the user, in sequential order.  The binary search tree will
+	essentially become a linked list, while the red-black tree will maintain its
+	balance.  The maximum execution time (in nanoseconds) of each objects
+	'Insert()' call is recorded, to be printed to standard output before this
+	program terminates successfully, and at each interval of 10% of the maximum
+	number of nodes to be inserted, the execution time (in nanoseconds) of each
+	object's call to 'Max()' is recorded and printed to standard output.  These
+	times can be used to determine efficiency differences between binary search
+	trees and red-black trees.
 	
 INPUT:
 	An integer, which will determine how many nodes get inserted into the
