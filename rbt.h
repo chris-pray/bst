@@ -26,7 +26,7 @@ ASSUMPTIONS:
 		the user.
 	3. A node's data is defined as an 'int', which is it's key value, but it may
 		be substituted for a user-defined 'struct'.
-	4. 'nil's parent, left, and right members always contain the value, nullptr.
+	4. 'nil's parent, left, and right members always contain the value, nil.
 	
 */
 

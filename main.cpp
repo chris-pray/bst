@@ -54,7 +54,7 @@ EXCEPTION HANDLING:
 */
 
 
-#include <cstdlib>	// for ctoi()
+#include <cstdlib>	// for atoi()
 #include <ctime>	// for clock_gettime(), CLOCK_REALTIME
 #include <iostream>	// for cout, cin, cerr, endl
 #include <cmath>	// for pow()
@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
 	long rbtInsertT = 0;	// time for RBT::Insert(const int)
 	long bstMaxTs[10];		// times for BST::Max() for list size of Xn
 	long rbtMaxTs[10];		// times for RBT::Max() for list size of Xn
-	int x;					// The bst and rbt will each contain 10^(x - 1) nodes
+	int x;					// The bst and rbt will each contain 10*(x/10) nodes
 	
 	if(argc == 1)
 	{
@@ -113,13 +113,11 @@ int main(int argc, char* argv[])
 	
 	} // end else
 	
-	// for each exponent in the range [0, x)
+	// loop for number of samples to be taken
 	for(int i = 0; i < 10; i++)
 	{
 		try
 		{
-			// fill the bst and rbt with key values up to 10^i that are not
-			//  already in them
 			Fill(bst, rbt, i * (x / 10), (i + 1) * (x / 10), bstInsertT, rbtInsertT);
 
 			GetClockT(bst, rbt, bstMaxTs, rbtMaxTs, i);
@@ -172,7 +170,7 @@ bool TryInsert(BST& bst, const int key, long& bstInsertT)
 	
 	} // end catch
 
-} // end TryInsert(BST, const int, clock_t&)
+} // end TryInsert(BST&, const int, long&)
 
 void TryMax(const BST& bst, long bstMaxTs[], const int i)
 {
@@ -195,7 +193,7 @@ void TryMax(const BST& bst, long bstMaxTs[], const int i)
 
 	} // end catch
 
-} // end TryMax(const BST&, clock_t, const int)
+} // end TryMax(const BST&, long[], const int)
 
 void Fill(BST& bst, RBT& rbt, const int low, const int high, long& bstInsertT, long& rbtInsertT)
 {
@@ -206,14 +204,14 @@ void Fill(BST& bst, RBT& rbt, const int low, const int high, long& bstInsertT, l
 
 	} // end for
 
-} // end Insert(BST&, RBT&, const int, const int, clock_t&, clock_t&)
+} // end Insert(BST&, RBT&, const int, const int, long&, long&)
 
 void GetClockT(const BST& bst, const RBT& rbt, long bstMaxTs[], long rbtMaxTs[], const int i)
 {
 	TryMax(bst, bstMaxTs, i);
 	TryMax(rbt, rbtMaxTs, i);
 
-} // end GetClockT(const BST&, const RBT&, vector<clock_t>, vector<clock_t>, const int)
+} // end GetClockT(const BST&, const RBT&, long[], long[], const int)
 
 
 
